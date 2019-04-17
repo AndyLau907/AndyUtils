@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 /**
  * Created by andy on 2018/7/11.
@@ -22,13 +21,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @LayoutRes
     protected abstract int getLayoutId();
-
-
-    /**
-     * 配置Toolbar
-     */
-    protected void setUpToolbar(Toolbar toolbar) {
-    }
 
     /**
      * 初始化数据
