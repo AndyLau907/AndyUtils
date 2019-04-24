@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--通用 Item-->
+    <declare-styleable name="CommonItemLayout">
+        <attr name="cil_leftText" format="string"/>
+        <attr name="cil_leftImage" format="reference"/>
+        <attr name="cil_leftTextColor" format="color"/>
+        <attr name="cil_rightText" format="string"/>
+        <attr name="cil_rightTextColor" format="color"/>
+        <attr name="cil_rightImage" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ClearEditTextLayout">
+        <attr name="text_hint" format="string"/>   <!-->提示文字<-->
+        <attr name="text_color" format="color"/>
+        <attr name="text" format="string"/>
+        <attr name="single_line" format="boolean"/>
+        <attr name="text_hint_color" format="color"/>
+        <attr name="text_gravity" format="integer"/>
+        <attr name="text_left_padding" format="dimension"/>
+        <attr name="text_right_padding" format="dimension"/>
+        <attr name="text_top_padding" format="dimension"/>
+        <attr name="text_bottom_padding" format="dimension"/>
+        <attr name="line_color" format="color"/>
+        <attr name="input_type" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="PwdClearEditTextLayout">
+        <attr name="text_hint" format="string"/>   <!-->提示文字<-->
+        <attr name="text_color" format="color"/>
+        <attr name="text" format="string"/>
+        <attr name="single_line" format="boolean"/>
+        <attr name="text_hint_color" format="color"/>
+        <attr name="text_gravity" format="integer"/>
+        <attr name="text_left_padding" format="dimension"/>
+        <attr name="text_right_padding" format="dimension"/>
+        <attr name="text_top_padding" format="dimension"/>
+        <attr name="text_bottom_padding" format="dimension"/>
+        <attr name="line_color" format="color"/>
+        <attr name="is_pwd_visible" format="boolean"/>
+    </declare-styleable>
+</resources>

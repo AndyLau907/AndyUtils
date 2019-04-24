@@ -1,6 +1,7 @@
 package com.andy.lib.View;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -59,22 +60,31 @@ public class PwdClearEditTextLayout extends LinearLayout {
 
     public PwdClearEditTextLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        /**
-         * **********
-         * **********
-         */
-        //基本和ClearEditTextLayout的这部分一样 不再多注释
+        TypedArray a =context.obtainStyledAttributes(attrs,R.styleable.PwdClearEditTextLayout);
+        String hint = a.getString(R.styleable.PwdClearEditTextLayout_text_hint);
+        int textColor = a.getColor(R.styleable.PwdClearEditTextLayout_text_color,getResources().getColor(R.color.black));
+        boolean singleLine = a.getBoolean(R.styleable.PwdClearEditTextLayout_single_line,true);
+        int textHintColor=a.getColor(R.styleable.PwdClearEditTextLayout_text_hint_color,getResources().getColor(R.color.black));
+        int textGravity=a.getInteger(R.styleable.PwdClearEditTextLayout_text_gravity,Gravity.CENTER_VERTICAL);
+        int textLeftPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_left_padding,DensityUtil.dip2px(getContext(), 10));
+        int textRightPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_right_padding,DensityUtil.dip2px(getContext(), 10));
+        int textTopPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_top_padding,0);
+        int textBottomPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_bottom_padding,0);
+        int lineColor = a.getColor(R.styleable.PwdClearEditTextLayout_line_color,getResources().getColor(R.color.loginEditTextLine));
+//        int inputType = a.getInteger(R.styleable.PwdClearEditTextLayout_input_type,InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        boolean isPwdVisable=a.getBoolean(R.styleable.PwdClearEditTextLayout_is_pwd_visible,false);
+
         editText = new EditText(getContext());
         editText.setBackground(null);
-        editText.setSingleLine(true);
-        editText.setTextColor(getResources().getColor(R.color.black));
-        editText.setHint("密码");
-        editText.setHintTextColor(getResources().getColor(R.color.black));
-        editText.setGravity(Gravity.CENTER_VERTICAL);
+        editText.setSingleLine(singleLine);
+        editText.setTextColor(textColor);
+        editText.setHint(hint);
+        editText.setHintTextColor(textHintColor);
+        editText.setGravity(textGravity);
         //设置输入类型为字符型密码 设置后输入内容会被替换为*来显示
         editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         editText.setId(textId);
-        editText.setPadding(DensityUtil.dip2px(getContext(), 10), 0, DensityUtil.dip2px(getContext(), 10), 0);
+        editText.setPadding(textLeftPadding, textTopPadding,textRightPadding, textBottomPadding);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,7 +123,7 @@ public class PwdClearEditTextLayout extends LinearLayout {
 
 
         line = new View(getContext());
-        line.setBackgroundColor(getResources().getColor(R.color.loginEditTextLine));
+        line.setBackgroundColor(lineColor);
         line.setId(lineId);
 
         layout = new LinearLayout(getContext());
@@ -125,7 +135,13 @@ public class PwdClearEditTextLayout extends LinearLayout {
         pwdImage.setVisibility(GONE);
         pwdImage.setId(pwdimgId);
         //初始的时候 按钮的图片设置为“密码隐藏”的图片 即闭眼图片
-        pwdImage.setImageResource(R.mipmap.pwd_invisible);
+        if(!isPwdVisable){
+            pwdImage.setImageResource(R.mipmap.pwd_invisible);
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }else{
+            pwdImage.setImageResource(R.mipmap.pwd_visible);
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        }
         pwdImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

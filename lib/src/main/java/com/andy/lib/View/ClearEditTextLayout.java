@@ -2,6 +2,7 @@ package com.andy.lib.View;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -53,26 +54,38 @@ public class ClearEditTextLayout extends LinearLayout {
 
     public ClearEditTextLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        TypedArray a =context.obtainStyledAttributes(attrs,R.styleable.ClearEditTextLayout);
+        String hint = a.getString(R.styleable.ClearEditTextLayout_text_hint);
+        int textColor = a.getColor(R.styleable.ClearEditTextLayout_text_color,getResources().getColor(R.color.black));
+        boolean singleLine = a.getBoolean(R.styleable.ClearEditTextLayout_single_line,true);
+        int textHintColor=a.getColor(R.styleable.ClearEditTextLayout_text_hint_color,getResources().getColor(R.color.black));
+        int textGravity=a.getInteger(R.styleable.ClearEditTextLayout_text_gravity,Gravity.CENTER_VERTICAL);
+        int textLeftPadding=a.getDimensionPixelSize(R.styleable.ClearEditTextLayout_text_left_padding,DensityUtil.dip2px(getContext(), 10));
+        int textRightPadding=a.getDimensionPixelSize(R.styleable.ClearEditTextLayout_text_right_padding,DensityUtil.dip2px(getContext(), 10));
+        int textTopPadding=a.getDimensionPixelSize(R.styleable.ClearEditTextLayout_text_top_padding,0);
+        int textBottomPadding=a.getDimensionPixelSize(R.styleable.ClearEditTextLayout_text_bottom_padding,0);
+        int lineColor = a.getColor(R.styleable.ClearEditTextLayout_line_color,getResources().getColor(R.color.loginEditTextLine));
+        int inputType = a.getInteger(R.styleable.ClearEditTextLayout_input_type,InputType.TYPE_CLASS_TEXT);
         //初始化输入框
         editText = new EditText(getContext());
         //设置背景为空
         editText.setBackground(null);
         //设置内容单行显示
-        editText.setSingleLine(true);
+        editText.setSingleLine(singleLine);
         //设置字体颜色
-        editText.setTextColor(getResources().getColor(R.color.black));
+        editText.setTextColor(textColor);
         //默认输入框内容
-        editText.setHint("电话");
+        editText.setHint(hint);
         //设置默认内容字体颜色
-        editText.setHintTextColor(getResources().getColor(R.color.black));
-        //设置输入框内容垂直居中
-        editText.setGravity(Gravity.CENTER_VERTICAL);
+        editText.setHintTextColor(textHintColor);
+        //设置输入框内容排列
+        editText.setGravity(textGravity);
         //设置输入框内容类型
-        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setInputType(inputType);
         //设置输入框id
         editText.setId(textId);
         //设置输入框内边距
-        editText.setPadding(DensityUtil.dip2px(getContext(), 10), 0, DensityUtil.dip2px(getContext(), 10), 0);
+        editText.setPadding(textLeftPadding, textTopPadding, textRightPadding, textBottomPadding);
         //设置输入内容改变监听事件
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,7 +130,7 @@ public class ClearEditTextLayout extends LinearLayout {
         //初始化下划线
         line = new View(getContext());
         //设置下划线背景色
-        line.setBackgroundColor(getResources().getColor(R.color.loginEditTextLine));
+        line.setBackgroundColor(lineColor);
         //设置下划线id
         line.setId(lineId);
 
