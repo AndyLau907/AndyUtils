@@ -187,4 +187,8 @@ public class PwdClearEditTextLayout extends LinearLayout {
     public void setText(String str) {
         editText.setText(str);
     }
+
+    public void setHint(String hint){
+        editText.setHint(hint);
+    }
 }
