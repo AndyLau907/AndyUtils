@@ -61,18 +61,18 @@ public class PwdClearEditTextLayout extends LinearLayout {
     public PwdClearEditTextLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a =context.obtainStyledAttributes(attrs,R.styleable.PwdClearEditTextLayout);
-        String hint = a.getString(R.styleable.PwdClearEditTextLayout_text_hint);
-        int textColor = a.getColor(R.styleable.PwdClearEditTextLayout_text_color,getResources().getColor(R.color.black));
-        boolean singleLine = a.getBoolean(R.styleable.PwdClearEditTextLayout_single_line,true);
-        int textHintColor=a.getColor(R.styleable.PwdClearEditTextLayout_text_hint_color,getResources().getColor(R.color.black));
-        int textGravity=a.getInteger(R.styleable.PwdClearEditTextLayout_text_gravity,Gravity.CENTER_VERTICAL);
-        int textLeftPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_left_padding,DensityUtil.dip2px(getContext(), 10));
-        int textRightPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_right_padding,DensityUtil.dip2px(getContext(), 10));
-        int textTopPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_top_padding,0);
-        int textBottomPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_text_bottom_padding,0);
-        int lineColor = a.getColor(R.styleable.PwdClearEditTextLayout_line_color,getResources().getColor(R.color.loginEditTextLine));
+        String hint = a.getString(R.styleable.PwdClearEditTextLayout_pwd_text_hint);
+        int textColor = a.getColor(R.styleable.PwdClearEditTextLayout_pwd_text_color,getResources().getColor(R.color.black));
+        boolean singleLine = a.getBoolean(R.styleable.PwdClearEditTextLayout_pwd_single_line,true);
+        int textHintColor=a.getColor(R.styleable.PwdClearEditTextLayout_pwd_text_hint_color,getResources().getColor(R.color.black));
+        int textGravity=a.getInteger(R.styleable.PwdClearEditTextLayout_pwd_text_gravity,Gravity.CENTER_VERTICAL);
+        int textLeftPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_pwd_text_left_padding,DensityUtil.dip2px(getContext(), 10));
+        int textRightPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_pwd_text_right_padding,DensityUtil.dip2px(getContext(), 10));
+        int textTopPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_pwd_text_top_padding,0);
+        int textBottomPadding=a.getDimensionPixelSize(R.styleable.PwdClearEditTextLayout_pwd_text_bottom_padding,0);
+        int lineColor = a.getColor(R.styleable.PwdClearEditTextLayout_pwd_line_color,getResources().getColor(R.color.loginEditTextLine));
 //        int inputType = a.getInteger(R.styleable.PwdClearEditTextLayout_input_type,InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        boolean isPwdVisable=a.getBoolean(R.styleable.PwdClearEditTextLayout_is_pwd_visible,false);
+        boolean isPwdVisable=a.getBoolean(R.styleable.PwdClearEditTextLayout_pwd_is_pwd_visible,false);
 
         editText = new EditText(getContext());
         editText.setBackground(null);

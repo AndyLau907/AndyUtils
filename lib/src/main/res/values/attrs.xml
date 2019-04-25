@@ -26,17 +26,17 @@
     </declare-styleable>
 
     <declare-styleable name="PwdClearEditTextLayout">
-        <attr name="text_hint" format="string"/>   <!-->提示文字<-->
-        <attr name="text_color" format="color"/>
-        <attr name="text" format="string"/>
-        <attr name="single_line" format="boolean"/>
-        <attr name="text_hint_color" format="color"/>
-        <attr name="text_gravity" format="integer"/>
-        <attr name="text_left_padding" format="dimension"/>
-        <attr name="text_right_padding" format="dimension"/>
-        <attr name="text_top_padding" format="dimension"/>
-        <attr name="text_bottom_padding" format="dimension"/>
-        <attr name="line_color" format="color"/>
-        <attr name="is_pwd_visible" format="boolean"/>
+        <attr name="pwd_text_hint" format="string"/>   <!-->提示文字<-->
+        <attr name="pwd_text_color" format="color"/>
+        <attr name="pwd_text" format="string"/>
+        <attr name="pwd_single_line" format="boolean"/>
+        <attr name="pwd_text_hint_color" format="color"/>
+        <attr name="pwd_text_gravity" format="integer"/>
+        <attr name="pwd_text_left_padding" format="dimension"/>
+        <attr name="pwd_text_right_padding" format="dimension"/>
+        <attr name="pwd_text_top_padding" format="dimension"/>
+        <attr name="pwd_text_bottom_padding" format="dimension"/>
+        <attr name="pwd_line_color" format="color"/>
+        <attr name="pwd_is_pwd_visible" format="boolean"/>
     </declare-styleable>
 </resources>
