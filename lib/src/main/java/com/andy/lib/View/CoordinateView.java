@@ -54,7 +54,7 @@ public class CoordinateView extends View {
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.CoordinateView);
 
         pointFilePath = ta.getString(R.styleable.CoordinateView_file_path);
-        lineColor = ta.getColor(R.styleable.CoordinateView_line_color, Color.GREEN);
+        lineColor = ta.getColor(R.styleable.CoordinateView_coordinate_line_color, Color.GREEN);
         coordinateColor = ta.getColor(R.styleable.CoordinateView_coordinate_color, Color.BLACK);
         pointColor = ta.getColor(R.styleable.CoordinateView_point_color, Color.RED);
 
