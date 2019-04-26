@@ -39,4 +39,11 @@
         <attr name="pwd_line_color" format="color"/>
         <attr name="pwd_is_pwd_visible" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="CoordinateView">
+        <attr name="file_path" format="string"/>
+        <attr name="line_color" format="color"/>
+        <attr name="point_color" format="color"/>
+        <attr name="coordinate_color" format="color"/>
+    </declare-styleable>
 </resources>
