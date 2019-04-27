@@ -41,9 +41,9 @@
     </declare-styleable>
 
     <declare-styleable name="CoordinateView">
-        <attr name="file_path" format="string"/>
-        <attr name="coordinate_line_color" format="color"/>
-        <attr name="point_color" format="color"/>
-        <attr name="coordinate_color" format="color"/>
+        <attr name="file_path" format="string"/>  <!-->文件名<-->
+        <attr name="coordinate_line_color" format="color"/>  <!-->线条颜色  默认绿<-->
+        <attr name="point_color" format="color"/>  <!-->点的颜色 默认红<-->
+        <attr name="coordinate_color" format="color"/> <!-->坐标轴颜色 默认黑<-->
     </declare-styleable>
 </resources>
