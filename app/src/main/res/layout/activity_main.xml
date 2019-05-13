@@ -5,9 +5,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <com.andy.lib.View.CoordinateView
+        android:id="@+id/coordinateVIew"
         android:layout_marginTop="100dp"
         android:layout_gravity="center"
-        app:file_path="POINTS.txt"
+        app:default_xmax="70"
+        app:default_ymax="30"
+        app:file_path="36data.txt"
         android:layout_width="400dp"
         android:layout_height="400dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/start_btn"
+            android:text="暂停"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/previous_btn"
+            android:text="上一组"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/next_btn"
+            android:text="下一组"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/asc_btn"
+            android:text="放大"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/desc_btn"
+            android:text="缩小"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>
