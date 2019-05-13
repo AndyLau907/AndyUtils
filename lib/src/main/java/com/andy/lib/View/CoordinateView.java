@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -70,7 +69,6 @@ public class CoordinateView extends View {
     private float onceScale;
     //当前绘制截止的点的索引
     private int index = 0;
-    //箭头末端点距离坐标轴默认距离
     //箭头末端点距离坐标轴距离
     private float distance = 20f;
     //重绘时间间隔
@@ -78,7 +76,7 @@ public class CoordinateView extends View {
     //是否自动切换数据组
     private boolean isAuto;
     //监听器
-    private DataEndListener listener;
+    private DataChangeListener listener;
     //文字大小默认比例
     private float defTextSize=18f/1100;
     //文字大小比例
@@ -179,6 +177,7 @@ public class CoordinateView extends View {
             super.handleMessage(msg);
             if(msg.what==0){
                 invalidate();
+                listener.onDateChanged(getGroupIndex());
             }else{
                 listener.onDataEnd();
             }
@@ -207,7 +206,8 @@ public class CoordinateView extends View {
         for(int i=0;i<=18;i++){
             if(i!=9){
                 canvas.drawLine(zeroPoint.x+startX*scaleX,zeroPoint.y,zeroPoint.x+startX*scaleX,zeroPoint.y-length,linePaint);
-                canvas.drawText(startX+"",zeroPoint.x+startX*scaleX-textX,zeroPoint.y+distanceX,textPaint);
+                float x=Math.round(startX*10)/10;
+                canvas.drawText(x+"",zeroPoint.x+startX*scaleX-textX,zeroPoint.y+distanceX,textPaint);
             }
             startX+=maxX/10;
         }
@@ -217,7 +217,8 @@ public class CoordinateView extends View {
         for(int i=0;i<=18;i++){
             if(i!=9){
                 canvas.drawLine(zeroPoint.x,startViewY*scaleY+zeroPoint.y,zeroPoint.x+length,startViewY*scaleY+zeroPoint.y,linePaint);
-                canvas.drawText(startY+"",zeroPoint.x-distanceY,zeroPoint.y+startViewY*scaleY-textY,textPaint);
+                float y=Math.round(startY*10)/10;
+                canvas.drawText(y+"",zeroPoint.x-distanceY,zeroPoint.y+startViewY*scaleY-textY,textPaint);
             }
             startViewY-=maxY/10;
             startY+=maxY/10;
@@ -321,6 +322,7 @@ public class CoordinateView extends View {
         if (index + 7 < dataPointList.size()) {
             index += 7;
             invalidate();
+            listener.onDateChanged(getGroupIndex());
         } else {
             Toast.makeText(getContext(), "已经是最后一组数据啦~", Toast.LENGTH_SHORT).show();
         }
@@ -367,6 +369,7 @@ public class CoordinateView extends View {
         if (index - 7 >= 0) {
             index -= 7;
             invalidate();
+            listener.onDateChanged(getGroupIndex());
         } else {
             Toast.makeText(getContext(), "已经是第一组数据啦~", Toast.LENGTH_SHORT).show();
         }
@@ -439,12 +442,13 @@ public class CoordinateView extends View {
     }
 
 
-    public interface DataEndListener{
+    public interface DataChangeListener {
         void onDataEnd();
+        void onDateChanged(int groupId);
     }
 
 
-    public void setListener(DataEndListener listener){
+    public void setListener(DataChangeListener listener){
         this.listener=listener;
     }
 }

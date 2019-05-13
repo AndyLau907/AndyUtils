@@ -34,11 +34,17 @@ public class TestActivity extends BaseActivity {
         }else{
             ssBtn.setText("开始");
         }
-        coordinateView.setListener(new CoordinateView.DataEndListener() {
+        coordinateView.setListener(new CoordinateView.DataChangeListener() {
             @Override
             public void onDataEnd() {
                 ssBtn.setText("开始");
             }
+
+            @Override
+            public void onDateChanged(int groupId) {
+
+            }
+
         });
     }
 
