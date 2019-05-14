@@ -68,7 +68,7 @@ public class CoordinateView extends View {
     //单次伸缩比例
     private float onceScale;
     //当前绘制截止的点的索引
-    private int index = 0;
+    private int index;
     //箭头末端点距离坐标轴距离
     private float distance = 20f;
     //重绘时间间隔
@@ -78,29 +78,31 @@ public class CoordinateView extends View {
     //监听器
     private DataChangeListener listener;
     //文字大小默认比例
-    private float defTextSize=18f/1100;
+    private float defTextSize = 18f / 1100;
     //文字大小比例
     private float textSize;
     //X轴文字左偏移刻度距离默认比例
-    private float defTextX=25f/1100f;
+    private float defTextX = 25f / 1100f;
     //X轴文字左偏移距离
     private float textX;
     //Y轴文字上偏移刻度距离默认比例
-    private float defTextY=5f/1100f;
+    private float defTextY = 5f / 1100f;
     //Y轴文字上偏移距离
     private float textY;
     //x轴文字距离X轴下方距离默认比例
-    private float defDistanceX=30f/1100f;
+    private float defDistanceX = 30f / 1100f;
     //x轴文字距离X轴下方距离
     private float distanceX;
     //y轴文字距离y轴左方距离默认比例
-    private float defDistanceY=60f/1100f;
+    private float defDistanceY = 60f / 1100f;
     //y轴文字距离y轴左方距离
     private float distanceY;
     //刻度长度默认比例
-    private float defLength=15f/1100f;
+    private float defLength = 15f / 1100f;
     //刻度长度
     private float length;
+    //是否初次绘制
+    private boolean isFirstDraw=true;
 
 
     public CoordinateView(Context context) {
@@ -130,13 +132,14 @@ public class CoordinateView extends View {
 
         maxX = defMaxX;
         maxY = defMaxY;
+        index = 0;
         //distance=defDistance;
         //初始化原点坐标
         zeroPoint = new Point(0, 0);
         //初始化数据
         dataPointList = new ArrayList<>();
         initPointFromAssets();
-        if(isAuto){
+        if (isAuto) {
             startAuto();
         }
     }
@@ -150,36 +153,41 @@ public class CoordinateView extends View {
         height = viewHeight;
         width = viewWidth;
 
-        textSize=defTextSize*Math.max(height,width);
-        textX=defTextX*width;
-        textY=defTextY*height;
-        distanceX=defDistanceX*width;
-        distanceY=defDistanceY*height;
-        length=defLength*Math.max(height,width);
+        textSize = defTextSize * Math.max(height, width);
+        textX = defTextX * width;
+        textY = defTextY * height;
+        distanceX = defDistanceX * width;
+        distanceY = defDistanceY * height;
+        length = defLength * Math.max(height, width);
 
-        Log.e(TAG,textSize+","+textX+","+textY+","+distanceX+","+distanceY+","+length);
+        Log.e(TAG, textSize + "," + textX + "," + textY + "," + distanceX + "," + distanceY + "," + length);
 
         zeroPoint.x = width / 2;
         zeroPoint.y = height / 2;
 
         Log.e(TAG, viewHeight + "," + viewWidth);
-        initScale();
-        doChange();
-
-        drawCoordinate(canvas);
-        drawPointAndLine(canvas);
-        drawText(canvas);
+        if(isFirstDraw){
+            initScale();
+            doChange();
+            drawCoordinate(canvas);
+            isFirstDraw=false;
+        }else{
+            drawCoordinate(canvas);
+            drawPointAndLine(canvas);
+            drawText(canvas);
+        }
     }
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.what==0){
+            if (msg.what == 0) {
                 invalidate();
                 listener.onDateChanged(getGroupIndex());
-            }else{
+            } else {
                 listener.onDataEnd();
+                Toast.makeText(getContext(), "所有数据组已经显示完毕啦~", Toast.LENGTH_LONG).show();
             }
 
         }
@@ -187,9 +195,10 @@ public class CoordinateView extends View {
 
     /**
      * 画刻度和坐标值
+     *
      * @param canvas
      */
-    private void drawText(Canvas canvas){
+    private void drawText(Canvas canvas) {
         Paint textPaint = new Paint();
         textPaint.setStyle(Paint.Style.STROKE);
         textPaint.setTextSize(textSize);
@@ -202,28 +211,29 @@ public class CoordinateView extends View {
         linePaint.setColor(pointColor);
 
         //画X轴刻度
-        float startX=-maxX+maxX/10;
-        for(int i=0;i<=18;i++){
-            if(i!=9){
-                canvas.drawLine(zeroPoint.x+startX*scaleX,zeroPoint.y,zeroPoint.x+startX*scaleX,zeroPoint.y-length,linePaint);
-                float x=Math.round(startX*10)/10;
-                canvas.drawText(x+"",zeroPoint.x+startX*scaleX-textX,zeroPoint.y+distanceX,textPaint);
+        float startX = -maxX + maxX / 10;
+        for (int i = 0; i <= 18; i++) {
+            if (i != 9) {
+                canvas.drawLine(zeroPoint.x + startX * scaleX, zeroPoint.y, zeroPoint.x + startX * scaleX, zeroPoint.y - length, linePaint);
+                float x = Math.round(startX * 10) / 10;
+                canvas.drawText(x + "", zeroPoint.x + startX * scaleX - textX, zeroPoint.y + distanceX, textPaint);
             }
-            startX+=maxX/10;
+            startX += maxX / 10;
         }
         //画Y轴刻度
-        float startViewY=maxY-maxY/10;
-        float startY=-maxY+maxY/10;
-        for(int i=0;i<=18;i++){
-            if(i!=9){
-                canvas.drawLine(zeroPoint.x,startViewY*scaleY+zeroPoint.y,zeroPoint.x+length,startViewY*scaleY+zeroPoint.y,linePaint);
-                float y=Math.round(startY*10)/10;
-                canvas.drawText(y+"",zeroPoint.x-distanceY,zeroPoint.y+startViewY*scaleY-textY,textPaint);
+        float startViewY = maxY - maxY / 10;
+        float startY = -maxY + maxY / 10;
+        for (int i = 0; i <= 18; i++) {
+            if (i != 9) {
+                canvas.drawLine(zeroPoint.x, startViewY * scaleY + zeroPoint.y, zeroPoint.x + length, startViewY * scaleY + zeroPoint.y, linePaint);
+                float y = Math.round(startY * 10) / 10;
+                canvas.drawText(y + "", zeroPoint.x - distanceY, zeroPoint.y + startViewY * scaleY - textY, textPaint);
             }
-            startViewY-=maxY/10;
-            startY+=maxY/10;
+            startViewY -= maxY / 10;
+            startY += maxY / 10;
         }
     }
+
     /**
      * 画坐标轴
      *
@@ -264,12 +274,12 @@ public class CoordinateView extends View {
         pointLinePaint.setStrokeWidth(4.0f);
         pointLinePaint.setColor(lineColor);
 
-        for (int i = index; i < index + 6; i++) {
+        for (int i = index; i < index + groupPoints-1; i++) {
             Point point1 = pointsList.get(i);
-            Point point2 = pointsList.get(i+1);
-            canvas.drawLine(point1.x,point1.y,point2.x,point2.y,pointLinePaint);
+            Point point2 = pointsList.get(i + 1);
+            canvas.drawLine(point1.x, point1.y, point2.x, point2.y, pointLinePaint);
             //Log.e(TAG,"point1:("+point1.x+","+point1.y+")"+",point2:("+point2.x+","+point2.y+")");
-            if(i+1==index+6){
+            if (i + 1 == index + groupPoints-1) {
                 canvas.drawCircle(point2.x, point2.y, 6.0f, pointPaint);
             }
             canvas.drawCircle(point1.x, point1.y, 6.0f, pointPaint);
@@ -305,6 +315,9 @@ public class CoordinateView extends View {
         float y = maxY - onceScale * defMaxY;
         maxX = x <= 0 ? maxX : x;
         maxY = y <= 0 ? maxY : y;
+        initScale();
+        doChange();
+        invalidate();
     }
 
     /**
@@ -313,14 +326,17 @@ public class CoordinateView extends View {
     public void descScale() {
         maxX = defMaxX * onceScale + maxX;
         maxY = defMaxY * onceScale + maxY;
+        initScale();
+        doChange();
+        invalidate();
     }
 
     /**
      * 显示下一组数据
      */
     public void nextGroup() {
-        if (index + 7 < dataPointList.size()) {
-            index += 7;
+        if (index + groupPoints < dataPointList.size()) {
+            index += groupPoints;
             invalidate();
             listener.onDateChanged(getGroupIndex());
         } else {
@@ -338,13 +354,12 @@ public class CoordinateView extends View {
             @Override
             public void run() {
                 while (isAuto) {
-                    if(index+7>=dataPointList.size()){
-                        Toast.makeText(getContext(),"所有数据组已经显示完毕啦~",Toast.LENGTH_LONG).show();
-                        isAuto=false;
+                    if (index + groupPoints >= dataPointList.size()) {
+                        isAuto = false;
                         handler.sendEmptyMessage(1);
                         break;
                     }
-                    index += 7;
+                    index += groupPoints;
                     handler.sendEmptyMessage(0);
                     try {
                         Thread.sleep(delay);
@@ -359,15 +374,16 @@ public class CoordinateView extends View {
     /**
      * 暂停自动切换数据组
      */
-    public void pauseAuto(){
-        isAuto=false;
+    public void pauseAuto() {
+        isAuto = false;
     }
+
     /**
      * 显示上一组数据
      */
     public void previousGroup() {
-        if (index - 7 >= 0) {
-            index -= 7;
+        if (index - groupPoints >= 0) {
+            index -= groupPoints;
             invalidate();
             listener.onDateChanged(getGroupIndex());
         } else {
@@ -377,9 +393,10 @@ public class CoordinateView extends View {
 
     /**
      * 获取是否自动切换
+     *
      * @return
      */
-    public boolean isAuto(){
+    public boolean isAuto() {
         return isAuto;
     }
 
@@ -389,7 +406,7 @@ public class CoordinateView extends View {
      * @return
      */
     public int getGroupIndex() {
-        return index % 7 + 1;
+        return index % groupPoints + 1;
     }
 
 
@@ -444,11 +461,12 @@ public class CoordinateView extends View {
 
     public interface DataChangeListener {
         void onDataEnd();
+
         void onDateChanged(int groupId);
     }
 
 
-    public void setListener(DataChangeListener listener){
-        this.listener=listener;
+    public void setListener(DataChangeListener listener) {
+        this.listener = listener;
     }
 }

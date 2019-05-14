@@ -10,6 +10,7 @@
         android:layout_gravity="center"
         app:default_xmax="70"
         app:default_ymax="30"
+        app:is_Auto="false"
         app:file_path="36data.txt"
         android:layout_width="400dp"
         android:layout_height="400dp" />
