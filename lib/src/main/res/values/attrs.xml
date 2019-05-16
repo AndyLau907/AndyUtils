@@ -51,5 +51,6 @@
         <attr name="redraw_time" format="integer"/> <!-->每次重绘时间间隔 毫秒为单位 默认1秒-->
         <attr name="group_points" format="integer"/> <!-->每一组要展示的点的数量 默认7<-->
         <attr name="is_Auto" format="boolean"/> <!-->是否自动切换数组组 默认是<-->
+        <attr name="points_name" format="string"/> <!-->点名称字符串 每个点名之间以英文逗号分隔<-->
     </declare-styleable>
 </resources>

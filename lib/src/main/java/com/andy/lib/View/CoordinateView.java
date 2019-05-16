@@ -102,7 +102,9 @@ public class CoordinateView extends View {
     //刻度长度
     private float length;
     //是否初次绘制
-    private boolean isFirstDraw=true;
+    private boolean isFirstDraw = true;
+    //点名称
+    private String[] pointsName;
 
 
     public CoordinateView(Context context) {
@@ -129,6 +131,14 @@ public class CoordinateView extends View {
         onceScale = ta.getFloat(R.styleable.CoordinateView_once_scale, 0.1f);
         delay = ta.getInteger(R.styleable.CoordinateView_redraw_time, 1000);
         isAuto = ta.getBoolean(R.styleable.CoordinateView_is_Auto, true);
+        String names = ta.getString(R.styleable.CoordinateView_points_name);
+        Log.e(TAG,names);
+        if (names != null) {
+            pointsName = names.split(",");
+        } else {
+            pointsName = null;
+        }
+
 
         maxX = defMaxX;
         maxY = defMaxY;
@@ -166,12 +176,12 @@ public class CoordinateView extends View {
         zeroPoint.y = height / 2;
 
         Log.e(TAG, viewHeight + "," + viewWidth);
-        if(isFirstDraw){
+        if (isFirstDraw) {
             initScale();
             doChange();
             drawCoordinate(canvas);
-            isFirstDraw=false;
-        }else{
+            isFirstDraw = false;
+        } else {
             drawCoordinate(canvas);
             drawPointAndLine(canvas);
             drawText(canvas);
@@ -261,6 +271,11 @@ public class CoordinateView extends View {
      * @param canvas
      */
     private void drawPointAndLine(Canvas canvas) {
+        Paint textPaint = new Paint();
+        textPaint.setStyle(Paint.Style.STROKE);
+        textPaint.setTextSize(textSize);
+        textPaint.setColor(Color.BLUE);
+
         Paint pointPaint = new Paint();
         pointPaint.setStyle(Paint.Style.FILL);
         pointPaint.setColor(pointColor);
@@ -274,15 +289,21 @@ public class CoordinateView extends View {
         pointLinePaint.setStrokeWidth(4.0f);
         pointLinePaint.setColor(lineColor);
 
-        for (int i = index; i < index + groupPoints-1; i++) {
+        for (int i = index; i < index + groupPoints - 1; i++) {
             Point point1 = pointsList.get(i);
             Point point2 = pointsList.get(i + 1);
             canvas.drawLine(point1.x, point1.y, point2.x, point2.y, pointLinePaint);
             //Log.e(TAG,"point1:("+point1.x+","+point1.y+")"+",point2:("+point2.x+","+point2.y+")");
-            if (i + 1 == index + groupPoints-1) {
+            if (i + 1 == index + groupPoints - 1) {
                 canvas.drawCircle(point2.x, point2.y, 6.0f, pointPaint);
+                if (pointsName != null) {
+                    canvas.drawText(pointsName[(i+1)%7], point2.x + 5, point2.y, textPaint);
+                }
             }
             canvas.drawCircle(point1.x, point1.y, 6.0f, pointPaint);
+            if (pointsName != null) {
+                canvas.drawText(pointsName[i%7], point1.x + 5, point1.y, textPaint);
+            }
         }
     }
 

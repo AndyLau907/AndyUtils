@@ -11,6 +11,7 @@
         app:default_xmax="70"
         app:default_ymax="30"
         app:is_Auto="false"
+        app:points_name="p1,p2,p3,p4,p5,p6,p7"
         app:file_path="36data.txt"
         android:layout_width="400dp"
         android:layout_height="400dp" />
